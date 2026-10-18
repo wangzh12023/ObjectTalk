@@ -13,21 +13,40 @@ export function Cover() {
   return <div className="pitch-content pitch-cover-v2">
     <div className="pitch-cover-copy"><div className="pitch-wordmark"><img src={asset('/favicon.svg')} alt="" /><span>Object<span>Talk</span></span></div>
       <h1>English practice.<br /><em>Played together.</em></h1>
-      <p className="pitch-cover-sub">A co-op 3D game for kids.<br />Play with a parent, a friend, or AI.</p>
+      <p className="pitch-cover-sub">A 3D co-op game for learning English.<br />Play with a parent, a friend, or AI.</p>
       <div className="pitch-cover-key"><Users size={25} /><span>Two players</span><i /><Gamepad2 size={25} /><span>In your browser</span></div>
-      <div className="pitch-team"><span className="pitch-team-label">Team {config.teamName}</span><div>{config.team.map((member, i) => <span key={i}>{member.name && <b>{member.name}</b>}{member.role}</span>)}</div></div>
+      <p className="pitch-cover-team">Team {config.teamName}</p>
     </div>
     <div className="pitch-cover-native"><LiveScene world="study" label="Two players at a shared desk in Cozy Study" /><div className="pitch-native-caption"><span>COZY STUDY</span><b>“The rocket on your left.”</b></div></div>
   </div>;
 }
 
+export function Team() {
+  const members: { name: string; role: string; photo?: string; detail?: string }[] = config.team;
+  const responsibilities = ['Everyday tasks and clear scene design', 'Shared rooms, controls and 3D interaction', 'AI teammates, asset generation and validation'];
+  const icons = [NotebookPen, Gamepad2, Box];
+  return <div className="pitch-content pitch-team-page">
+    <Heading label="01 / OUR TEAM">The team behind <em>ObjectTalk</em></Heading>
+    <p className="pitch-team-intro">We bring product design, realtime gameplay and AI content tools into one playable experience.</p>
+    <div className="pitch-member-grid">{members.map((member, i) => {
+      const Icon = icons[i % icons.length];
+      return <article className={member.photo ? 'has-photo' : ''} key={member.name || member.role}>
+        {member.photo ? <img className="pitch-member-photo" src={asset(member.photo)} alt={member.name} /> : <Icon className="pitch-member-icon" size={48} aria-hidden="true" />}
+        {member.name && <h2>{member.name}</h2>}
+        <h3>{member.role}</h3><p>{member.detail || responsibilities[i % responsibilities.length]}</p>
+      </article>;
+    })}</div>
+    <p className="pitch-team-result">Together, we built the game, the AI partner and the workflow for new playable content.</p>
+  </div>;
+}
+
 export function Problem() {
   return <div className="pitch-content pitch-problem">
-    <Heading label="01 / THE PROBLEM">More exposure. <em>Too little conversation.</em></Heading>
+    <Heading label="02 / WHY WE BUILT IT">More exposure. <em>Too little conversation.</em></Heading>
     <div className="pitch-problem-layout"><div className="pitch-problem-copy">
       <div><span>AT HOME</span><h2>Books and audio.<br />But who do you talk to?</h2><p>Kids hear English.<br />They need a reason to use it.</p></div>
       <div><span>IN CLASS</span><h2>Role-play works.<br />It takes time to set up.</h2><p>Teachers prepare the setting,<br />the props, and the activity.</p></div>
-      <strong>What if that practice was a game at home?</strong>
+      <strong>Our starting question: can a shared game make everyday English useful?</strong>
     </div><div className="pitch-problem-scene"><LiveScene world="cafe" /><div className="pitch-native-caption"><span>CORNER CAFÉ</span><b>“Two croissants, please.”</b></div></div></div>
   </div>;
 }
@@ -72,21 +91,21 @@ export function DemoFilm({ source, onEnded }: { source: string; onEnded: () => v
 }
 
 export function Difference() {
-  return <div className="pitch-content pitch-difference-v2"><Heading label="04 / OUR APPROACH">The task takes <em>two people.</em></Heading>
+  return <div className="pitch-content pitch-difference-v2"><Heading label="04 / OUR ADVANTAGES & PRODUCT COMPARISON">Co-op gameplay, <em>with AI feedback</em></Heading>
     <div className="pitch-difference-layout"><div className="pitch-difference-copy">
     <div className="pitch-comparison" role="table" aria-label="Product comparison"><div className="pitch-comparison-row pitch-comparison-head" role="row"><span role="columnheader">Product</span><span role="columnheader">Noun Town</span><span role="columnheader">Duolingo Video Call</span><span role="columnheader" className="pitch-our-column">ObjectTalk</span></div>{[
-      ['Activity', 'Explore and learn vocabulary', 'Talk with an AI character', 'Complete a task together'],
-      ['Partner', 'No social chat on desktop', 'AI character', 'Parent, friend, or AI'],
+      ['Practice', 'Vocabulary through exploration', 'Conversation with an AI character', 'English to complete a shared task'],
+      ['Interaction', 'Objects and mini-games', 'Free-flowing AI conversation', 'Parent, friend, or AI teammate'],
     ].map(row => <div className="pitch-comparison-row" role="row" key={row[0]}>{row.map((cell, i) => <span role="cell" key={cell} className={i === 3 ? 'pitch-our-column' : ''}>{cell}</span>)}</div>)}</div>
-    <div className="pitch-difference-bottom"><h2>Your words change what your partner does.</h2><p>The right object, size, and position matter to the outcome.</p><strong>Play together. Review the conversation with AI.</strong></div>
+    <div className="pitch-difference-bottom"><h2>One player sees the goal. The other acts.</h2><p>Describe the object, clarify the direction and finish the task together.</p><strong>AI feedback connects your conversation to what happened in the game.</strong></div>
     <p className="pitch-source">Sources: <a href="https://noun.town/language-learning-game/" target="_blank" rel="noreferrer">Noun Town</a> · <a href="https://blog.duolingo.com/video-call/" target="_blank" rel="noreferrer">Duolingo Video Call</a></p>
     </div><div className="pitch-difference-native"><LiveScene world="study" label="Two players collaborating in Cozy Study" /></div></div>
   </div>;
 }
 
 export function Customers() {
-  return <div className="pitch-content pitch-customers"><Heading label="05 / FAMILIES & CLASSES">After class, <em>keep playing at home.</em></Heading>
-    <div className="pitch-customer-layout"><div className="pitch-customer-copy"><div className="pitch-customer-columns"><article><span><Heart size={25} /> FAMILIES</span><h2>Preschool and early primary</h2><p>Play with a parent or a friend.<br />Practise everyday English at home.</p></article><article><span><GraduationCap size={27} /> ENGLISH CLASSES & CLUBS</span><h2>Tasks that fit the lesson</h2><p>Pair up during class.<br />Play the same scene after school.</p></article></div><div className="pitch-course-example"><span>EXAMPLE / ORDERING FOOD</span><p>In class: customer + server<br />At home: child + parent</p></div></div>
+  return <div className="pitch-content pitch-customers"><Heading label="03 / OUR TARGET USERS">Young learners, <em>supported by adults</em></Heading>
+    <div className="pitch-customer-layout"><div className="pitch-customer-copy"><div className="pitch-customer-columns"><article><span><Heart size={25} /> PRIMARY USERS / FAMILIES</span><h2>Children + parents</h2><p>Young English learners who need speaking practice.<br />Parents who want something to do together.</p></article><article><span><GraduationCap size={27} /> PILOT PARTNERS / CLASSES & CLUBS</span><h2>English teachers + learning groups</h2><p>Teachers who need reusable role-play tasks.<br />Small groups that can practise in pairs.</p></article></div><div className="pitch-course-example"><span>FIRST USE CASE / ORDERING FOOD</span><p>A child and parent play customer and server.<br />A teacher can reuse the same task in class.</p></div></div>
     <div className="pitch-classroom-scene"><LiveScene world="cafe" /><div className="pitch-native-caption"><span>CORNER CAFÉ</span><b>Same café. A new conversation.</b></div></div></div>
   </div>;
 }
@@ -101,9 +120,11 @@ const workflow = [
 
 export function Harness() {
   const [selected, setSelected] = useState<'music' | 'fruit'>('fruit');
-  return <div className="pitch-content pitch-harness-v2"><Heading label="06 / SCENE AGENT HARNESS" sub="One workflow, from a scene brief to a playable co-op task.">We built a pipeline <em>for new scenes.</em></Heading>
+  return <div className="pitch-content pitch-harness-v2"><Heading label="07 / TECHNOLOGY & CORE ENGINEERING" sub="Our Scene Agent plans content. Shared game rules check that it is playable.">Scene Agent, <em>backed by game rules</em></Heading>
+    <div className="pitch-tech-stack" aria-label="Technology stack"><span>React + TypeScript</span><span>Three.js</span><span>Node.js + Socket.IO</span><span>LLM tools + Hyper3D Rodin</span></div>
     <div className="pitch-pipeline">{workflow.map((step, i) => <div className={`pitch-pipeline-step tone-${step.tone}`} key={step.title}><span className="pitch-step-number">0{i + 1}</span><step.icon size={35} /><h2>{step.title}</h2><p>{step.sub}</p>{i < 4 && <ArrowRight className="pitch-pipeline-arrow" size={26} />}</div>)}</div>
-    <div className="pitch-generated-proof"><div><span className="pitch-proof-label"><Check size={20} /> BUILT WITH THIS WORKFLOW</span><h2>Music Room<br />Fruit Market</h2><p>Two playable levels.<br />The same production workflow.</p><div className="pitch-scene-switch" role="group" aria-label="Choose a generated scene"><button aria-pressed={selected === 'music'} onClick={() => setSelected('music')}>Music Room</button><button aria-pressed={selected === 'fruit'} onClick={() => setSelected('fruit')}>Fruit Market</button></div></div><div className="pitch-generated-native">{(['fruit', 'music'] as const).map(world => <div key={world} className={`pitch-generated-layer ${selected === world ? 'is-active' : ''}`} aria-hidden={selected !== world} inert={selected !== world}><SceneMotion active={selected === world}><LiveScene world={world} /></SceneMotion></div>)}</div></div>
+    <div className="pitch-generated-proof"><div><span className="pitch-proof-label"><Check size={20} /> TWO SHIPPED AGENT-MADE LEVELS</span><h2>Music Room<br />Fruit Market</h2><p>Generated assets in supported game templates.<br />All sampled tasks must pass before publication.</p><div className="pitch-scene-switch" role="group" aria-label="Choose a generated scene"><button aria-pressed={selected === 'music'} onClick={() => setSelected('music')}>Music Room</button><button aria-pressed={selected === 'fruit'} onClick={() => setSelected('fruit')}>Fruit Market</button></div></div><div className="pitch-generated-native">{(['fruit', 'music'] as const).map(world => <div key={world} className={`pitch-generated-layer ${selected === world ? 'is-active' : ''}`} aria-hidden={selected !== world} inert={selected !== world}><SceneMotion active={selected === world}><LiveScene world={world} /></SceneMotion></div>)}</div></div>
+    <div className="pitch-engineering-proof"><p><b>Game state controls the AI</b>Role-specific views and bounded actions protect the task.</p><p><b>Reusable content, verified tasks</b>Shared schemas connect assets, missions and playability checks.</p></div>
     <p className="pitch-rodin-credit"><Box size={23} /> 3D generation: <a href="https://hyper3d.ai/" target="_blank" rel="noreferrer">Hyper3D Rodin</a><span>With thanks to the Rodin team</span></p>
   </div>;
 }
@@ -118,18 +139,18 @@ const worlds: { id: PitchWorld; title: string; english: string; task: string; ph
 export function ContentWorld() {
   const [selected, setSelected] = useState(2);
   const world = worlds[selected];
-  return <div className="pitch-content pitch-content-world"><Heading label="07 / THE SCENE LIBRARY">Everyday English, <em>across four scenes.</em></Heading>
+  return <div className="pitch-content pitch-content-world"><Heading label="05 / FEATURES & LIVE SCENES">Speak, act, <em>then review together</em></Heading>
     <div className="pitch-world-explorer"><div className="pitch-world-menu" role="group" aria-label="Choose a scene">{worlds.map((item, i) => <button aria-pressed={i === selected} key={item.id} onClick={() => setSelected(i)}><span>0{i + 1}</span><div><b>{item.title}</b><small>{item.task}</small></div><ArrowRight size={22} /></button>)}</div><div className="pitch-world-native"><LiveScene key={world.id} world={world.id} /><div className="pitch-native-caption"><span>{world.english.toUpperCase()}</span><b>{world.phrase}</b></div></div></div>
-    <div className="pitch-reuse-row"><span><Box /> 3D assets</span><span><Layers3 /> Task templates</span><span><ShieldCheck /> Co-op rules and checks</span><strong>Each scene adds assets and tasks we can use again.</strong></div>
+    <div className="pitch-reuse-row"><span><Users /> Human or AI teammate</span><span><AudioLines /> Voice and text</span><span><NotebookPen /> Replay + AI feedback</span><strong>One player sees the goal. The other makes the move.</strong></div>
   </div>;
 }
 
 export function Business() {
-  return <div className="pitch-content pitch-business-v2"><Heading label="08 / BUSINESS MODEL">Free to try. <em>Subscribe for new scenes.</em></Heading>
+  return <div className="pitch-content pitch-business-v2"><Heading label="08 / BUSINESS MODEL & PILOT PLAN">Business model <em>and first pilots</em></Heading>
     <div className="pitch-commercial-layout"><div className="pitch-commercial-main"><div className="pitch-commercial-steps"><span><b>01</b>Community trials</span><ArrowRight /><span><b>02</b>Free scenes</span><ArrowRight /><span><b>03</b>Paid themes</span></div>
       <div className="pitch-revenue-line"><Heart size={31} /><div><span>FAMILIES</span><h2>Scene packs + family subscriptions</h2><p>New themes and harder tasks as kids progress.</p></div></div><div className="pitch-revenue-line"><GraduationCap size={32} /><div><span>CLASSES & CLUBS</span><h2>Curriculum packs + custom scenes</h2><p>Match lesson topics. Reuse in class and at home.</p></div></div>
-      <div className="pitch-renewal"><MapPin size={24} /><p>A subscription means<br /><b>new scenes and tasks to come back to.</b></p></div>
-    </div><div className="pitch-cost-structure"><span>WHY THE COST CAN BE LOWER</span><h2>Build the scene once.<br /><em>Play it again at home.</em></h2><div><b>In-person role-play</b><p>Teacher-led setup<br />Space, props, and group planning</p></div><div><b>Extra practice with ObjectTalk</b><p>Reuse the scene with a parent<br />Get AI feedback after the round</p></div><small>Less repeated setup for practice outside class.</small></div></div>
+      <div className="pitch-renewal"><MapPin size={24} /><p>Proposed model:<br /><b>new scenes and tasks to come back to.</b></p></div>
+    </div><div className="pitch-cost-structure"><span>NEXT / SMALL PILOTS</span><h2>Learn from families.<br /><em>Test with classes.</em></h2><div><b>Family playtests</b><p>Observe whether pairs finish a task,<br />where they get stuck and whether they return.</p></div><div><b>Classroom pilots</b><p>Match one scene to a lesson.<br />Check setup effort and speaking participation.</p></div><small>Planned next steps. Pricing and learning outcomes need validation.</small></div></div>
   </div>;
 }
 

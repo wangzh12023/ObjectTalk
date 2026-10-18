@@ -4,8 +4,9 @@ import { asset } from '@/lib/asset';
 import config from '@/presentation/pitch.config.json';
 import { slideFromHash, slides } from '@/presentation/content';
 import { PitchMotionContext, preloadPitchScenes } from '@/presentation/LiveScene';
-import { Business, ContentWorld, Cover, Customers, DemoFilm, Difference, Future, Harness, Mechanics, Problem } from '@/presentation/PitchSlides';
+import { Business, ContentWorld, Cover, Customers, DemoFilm, Difference, Future, Harness, Problem, Team } from '@/presentation/PitchSlides';
 import '@/presentation/pitch.css';
+const retainedPages = slides.flatMap((slide, index) => slide.id === 'harness' || slide.id === 'content' ? [index] : []);
 export default function Pitch() {
   const [index, setIndex] = useState(() => slideFromHash(window.location.hash));
   const [direction, setDirection] = useState(1);
@@ -13,7 +14,7 @@ export default function Pitch() {
   const [controlsVisible, setControlsVisible] = useState(true);
   const [fullscreen, setFullscreen] = useState(false);
   const [fullscreenError, setFullscreenError] = useState('');
-  const [preparedPages, setPreparedPages] = useState<number[]>(() => [6, 7].includes(slideFromHash(window.location.hash)) ? [slideFromHash(window.location.hash)] : []);
+  const [preparedPages, setPreparedPages] = useState<number[]>(() => retainedPages.includes(slideFromHash(window.location.hash)) ? [slideFromHash(window.location.hash)] : []);
   const stage = useRef<HTMLDivElement>(null);
   const hideTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
@@ -104,7 +105,7 @@ export default function Pitch() {
   useEffect(() => {
     // Prepare the two expensive 3D pages before they are shown. Keep their
     // Canvas/GPU resources alive on later visits, with motion stopped offscreen.
-    const next = index >= 5 ? [6, 7] : index >= 4 ? [6] : [];
+    const next = retainedPages.filter(pageIndex => pageIndex <= index + 1);
     if (!next.length) return;
     const timer = window.setTimeout(() => setPreparedPages(current => [...new Set([...current, ...next])]), 350);
     return () => window.clearTimeout(timer);
@@ -113,8 +114,8 @@ export default function Pitch() {
   const renderSlide = () => {
     switch (slide.id) {
       case 'hello': return <Cover />;
+      case 'team': return <Team />;
       case 'why': return <Problem />;
-      case 'how': return <Mechanics />;
       case 'demo': return <DemoFilm source={source} onEnded={() => go(index + 1)} />;
       case 'difference': return <Difference />;
       case 'people': return <Customers />;
@@ -138,13 +139,13 @@ export default function Pitch() {
       touchStart.current = null;
     }}>
     <main className="pitch-stage" style={{ transform: `translate(-50%, -50%) scale(${scale})` }} aria-label="ObjectTalk pitch">
-      {![6, 7].includes(index) && <section key={slide.id} data-slide-active="true" className={`pitch-slide slide-${slide.id}`} style={{ '--pitch-direction': direction } as React.CSSProperties} aria-label={`Slide ${index + 1} of ${slides.length}: ${slide.title}`}>
+      {!retainedPages.includes(index) && <section key={slide.id} data-slide-active="true" className={`pitch-slide slide-${slide.id}`} style={{ '--pitch-direction': direction } as React.CSSProperties} aria-label={`Slide ${index + 1} of ${slides.length}: ${slide.title}`}>
         <PitchMotionContext.Provider value={true}>{renderSlide()}</PitchMotionContext.Provider>
       </section>}
-      {[...new Set([...preparedPages, ...([6, 7].includes(index) ? [index] : [])])].sort().map(pageIndex => <section key={slides[pageIndex].id} className={`pitch-slide pitch-retained-slide slide-${slides[pageIndex].id}`} data-slide-active={index === pageIndex ? 'true' : 'false'} aria-hidden={index !== pageIndex} inert={index !== pageIndex} aria-label={`Slide ${pageIndex + 1} of ${slides.length}: ${slides[pageIndex].title}`}>
-        <PitchMotionContext.Provider value={index === pageIndex}>{pageIndex === 6 ? <Harness /> : <ContentWorld />}</PitchMotionContext.Provider>
+      {[...new Set([...preparedPages, ...(retainedPages.includes(index) ? [index] : [])])].sort().map(pageIndex => <section key={slides[pageIndex].id} className={`pitch-slide pitch-retained-slide slide-${slides[pageIndex].id}`} data-slide-active={index === pageIndex ? 'true' : 'false'} aria-hidden={index !== pageIndex} inert={index !== pageIndex} aria-label={`Slide ${pageIndex + 1} of ${slides.length}: ${slides[pageIndex].title}`}>
+        <PitchMotionContext.Provider value={index === pageIndex}>{slides[pageIndex].id === 'harness' ? <Harness /> : <ContentWorld />}</PitchMotionContext.Provider>
       </section>)}
-      {slide.id !== 'demo' && <div className="pitch-slide-footer" aria-hidden="true"><span>OBJECTTALK <i /> ENGLISH, IN PLAY.</span><span>{String(index + 1).padStart(2, '0')} <i /> {String(slides.length).padStart(2, '0')}</span></div>}
+      {slide.id !== 'demo' && <div className={`pitch-slide-footer${slide.id === 'hello' || slide.id === 'future' ? ' pitch-minimal-footer' : ''}`} aria-hidden="true"><span>ObjectTalk</span><span>{String(index + 1).padStart(2, '0')} <i /> {String(slides.length).padStart(2, '0')}</span></div>}
     </main>
     <span className="pitch-sr-only" aria-live="polite">Slide {index + 1}: {slide.title}</span>
     {slide.id !== 'demo' && <div className="pitch-controls" aria-label="Presentation controls">

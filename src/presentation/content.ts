@@ -1,13 +1,13 @@
 export const slides = [
   { id: "hello", title: "ObjectTalk: English practice, played together" },
-  { id: "why", title: "More exposure. Too little conversation." },
-  { id: "how", title: "You see the goal. I make the move." },
+  { id: "team", title: "The ObjectTalk team" },
+  { id: "why", title: "Why we built ObjectTalk" },
+  { id: "people", title: "Who we are building for" },
+  { id: "difference", title: "Our advantages and product comparison" },
+  { id: "content", title: "What players can do" },
   { id: "demo", title: "Product demo" },
-  { id: "difference", title: "The task takes two people." },
-  { id: "people", title: "After class, keep playing at home." },
-  { id: "harness", title: "We built a pipeline for new scenes." },
-  { id: "content", title: "Everyday English, across four scenes." },
-  { id: "business", title: "Free to try. Subscribe for new scenes." },
+  { id: "harness", title: "Technology and core engineering" },
+  { id: "business", title: "Pilot plan and business model" },
   { id: "future", title: "Thank you." },
 ] as const;
 

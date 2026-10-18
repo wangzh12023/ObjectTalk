@@ -2,16 +2,37 @@
   "teamName": "ObjectTalk",
   "team": [
     {
-      "name": "",
-      "role": "Product & scene design"
+      "name": "王子涵",
+      "englishName": "Zihan Wang",
+      "role": "Team Leader",
+      "education": "ShanghaiTech University",
+      "study": "Computer Science, Year 4",
+      "detail": "Full-stack development, UI/UX and Agent systems",
+      "photo": "/pitch/team/zihan-wang.webp",
+      "photoPosition": "50% 20%",
+      "photoScale": 1
     },
     {
-      "name": "",
-      "role": "Game & interaction"
+      "name": "岳明琨",
+      "englishName": "Mingkun Yue",
+      "role": "Scene Optimization & Testing",
+      "education": "ShanghaiTech University",
+      "study": "Computer Science, Year 2",
+      "detail": "Scene refinement and game testing",
+      "photo": "/pitch/team/mingkun-yue.webp",
+      "photoPosition": "38% 44%",
+      "photoScale": 1
     },
     {
-      "name": "",
-      "role": "AI & content pipeline"
+      "name": "张嘉言",
+      "englishName": "Jiayan Zhang",
+      "role": "Product Manager",
+      "education": "ShanghaiTech University",
+      "study": "Electrical Engineering, Year 1",
+      "detail": "Product planning and acceptance testing",
+      "photo": "/pitch/team/jiayan-zhang.webp",
+      "photoPosition": "50% 12%",
+      "photoScale": 1.6
     }
   ],
   "video": {

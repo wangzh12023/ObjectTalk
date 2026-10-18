@@ -22,21 +22,21 @@ export function Cover() {
 }
 
 export function Team() {
-  const members: { name: string; role: string; photo?: string; detail?: string }[] = config.team;
+  const members = config.team;
   const responsibilities = ['Everyday tasks and clear scene design', 'Shared rooms, controls and 3D interaction', 'AI teammates, asset generation and validation'];
   const icons = [NotebookPen, Gamepad2, Box];
   return <div className="pitch-content pitch-team-page">
     <Heading label="01 / OUR TEAM">The team behind <em>ObjectTalk</em></Heading>
-    <p className="pitch-team-intro">We bring product design, realtime gameplay and AI content tools into one playable experience.</p>
+    <p className="pitch-team-intro">Three ShanghaiTech students building a game for English practice.</p>
     <div className="pitch-member-grid">{members.map((member, i) => {
       const Icon = icons[i % icons.length];
       return <article className={member.photo ? 'has-photo' : ''} key={member.name || member.role}>
-        {member.photo ? <img className="pitch-member-photo" src={asset(member.photo)} alt={member.name} /> : <Icon className="pitch-member-icon" size={48} aria-hidden="true" />}
-        {member.name && <h2>{member.name}</h2>}
+        {member.photo ? <div className="pitch-member-portrait"><img className="pitch-member-photo" src={asset(member.photo)} alt={`${member.englishName} (${member.name})`} style={{ objectPosition: member.photoPosition, transform: `scale(${member.photoScale})`, transformOrigin: member.photoPosition }} /></div> : <Icon className="pitch-member-icon" size={48} aria-hidden="true" />}
+        {member.name && <h2>{member.englishName}<small>{member.name}</small></h2>}
+        <p className="pitch-member-study">{member.education}<br />{member.study}</p>
         <h3>{member.role}</h3><p>{member.detail || responsibilities[i % responsibilities.length]}</p>
       </article>;
     })}</div>
-    <p className="pitch-team-result">Together, we built the game, the AI partner and the workflow for new playable content.</p>
   </div>;
 }
 

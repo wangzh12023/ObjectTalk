@@ -116,7 +116,7 @@ The **53-second film** introduces the product and shows the original live 3D sce
 
 <img src="public/readme/pitch.jpg" width="100%" alt="The English ObjectTalk pitch with a live 3D study scene" />
 
-[Open the pitch](https://objecttalk-demo.vercel.app/pitch) · [Download the 1080p60 film](https://objecttalk-demo.vercel.app/demo/ObjectTalk-launch-film-53s-1080p60.mp4?v=845ae0dc3541)
+[Open the pitch](https://objecttalk-demo.vercel.app/pitch) · [Download the 1080p60 film](https://objecttalk-demo.vercel.app/demo/ObjectTalk-launch-film-53s-1080p60.mp4?v=49eeae0e0d69)
 
 ## Run locally
 
